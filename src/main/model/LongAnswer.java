@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 // LongAnswer question type that has a question as String, a key and the weight of this question
 public class LongAnswer implements Question {
     private String quest;
@@ -12,6 +15,16 @@ public class LongAnswer implements Question {
         this.quest = quest;
         this.key = key;
         this.weight = weight;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("quest", this.quest);
+        json.put("key", this.key);
+        json.put("weight", this.weight);
+
+        return json;
     }
 
     // EFFECTS: return true if the provided String is equals to this.key

@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 // A Student class that extends Person class, which has userName and password for authorization, a list of Grade that
 // student is granted after finished an Assignment, a list of Course the student is enrolled in, and a list of
@@ -13,7 +16,7 @@ public class Student extends Person {
     private String userName;
     private String password;
     private List<Grade> grades;
-    private List<Course> loc;
+    private List<Integer> loc;
     private List<Assignment> loa;
     private int id;
 
@@ -29,6 +32,37 @@ public class Student extends Person {
         this.loa = new ArrayList<>();
     }
 
+    // EFFECTS: construct a student with the given id
+    public Student(int id, String name, String userName, String password) {
+        this.role = "student";
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+        this.id = id;
+        this.grades = new ArrayList<>();
+        this.loc = new ArrayList<>();
+        this.loa = new ArrayList<>();
+    }
+
+    // Override equals and hashCode based on id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Student student = (Student) o;
+        return (this.id == student.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     // EFFECTS: calculate the student overall based on list of Grade and return the result
     public double calculateOverall() {
         double result = 0;
@@ -38,8 +72,52 @@ public class Student extends Person {
 
         // In reality, remove this as the granted % is calculated in Answer.grade()
         result = result / (this.grades.size());
+        if (this.grades.size() == 0) {
+            result = 0;
+        }
         return result;
     }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.name);
+        json.put("role", this.role);
+        json.put("userName", this.userName);
+        json.put("password", this.password);
+        json.put("grades", gradesToJsonArray());
+        json.put("courses", coursesToJsonArray());
+        json.put("assignments", assignmentsToJsonArray());
+        json.put("id", this.id);
+        return json;
+    }
+
+    // EFFECTS: return the list of grades in JSONArray
+    public JSONArray gradesToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (Grade i : this.grades) {
+            result.put(i.toJson());
+        }
+        return result;
+    }
+
+    // EFFECTS: return list of Course in JSONArray
+    public JSONArray coursesToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (int i : this.loc) {
+            result.put(i);
+        }
+        return result;
+    }
+
+    // EFFECTS: return list of Assignment in JSONArray
+    public JSONArray assignmentsToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (Assignment i : this.loa) {
+            result.put(i.toJson());
+        }
+        return result;
+    }
+
 
     // MODIFIES: this
     // EFFECTS: add as to loa
@@ -59,17 +137,18 @@ public class Student extends Person {
 
     // MODIFIES: this
     // EFFECTS: add c to loc
-    public void addCourse(Course c) {
+    public void addCourseId(int c) {
         this.loc.add(c);
     }
 
     // MODIFIES: this
     // EFFECTS: remove c from loc
-    public void removeCourse(Course c) {
-        this.loc.remove(c);
+    public void removeCourseId(int c) {
+        int toRemove = this.loc.indexOf(c);
+        this.loc.remove(toRemove);
     }
 
-    public List<Course> getCourse() {
+    public List<Integer> getCourseId() {
         return this.loc;
     }
 

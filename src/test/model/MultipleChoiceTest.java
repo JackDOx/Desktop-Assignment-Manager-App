@@ -1,17 +1,18 @@
 package model;
 
 import org.junit.jupiter.api.Test;
-
+import org.json.JSONObject;
+import org.json.JSONArray;
 import java.util.List;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleChoiceTest {
-
+    private MultipleChoice multipleChoice;
     @Test
     void testMultipleChoice() {
-        MultipleChoice multipleChoice = new MultipleChoice("What color's your Bugatti?", "2", 5);
+        multipleChoice = new MultipleChoice("What color's your Bugatti?", "2", 5);
         assertEquals("What color's your Bugatti?", multipleChoice.getQuest());
         assertEquals("2", multipleChoice.getKey());
         assertEquals(5, multipleChoice.getWeight());
@@ -46,5 +47,24 @@ public class MultipleChoiceTest {
         MultipleChoice multipleChoice = new MultipleChoice("What car does Jack Do own?", "2", 5);
         assertTrue(multipleChoice.isCorrect("2"));
         assertFalse(multipleChoice.isCorrect("1"));
+    }
+
+    @Test
+    void testToJson() {
+        multipleChoice = new MultipleChoice("What is 2 + 2?", "4", 2);
+        multipleChoice.addChoice("2");
+        multipleChoice.addChoice("3");
+        multipleChoice.addChoice("4");
+        multipleChoice.addChoice("5");
+        JSONObject jsonObject = multipleChoice.toJson();
+        assertEquals("What is 2 + 2?", jsonObject.getString("quest"));
+        assertEquals("4", jsonObject.getString("key"));
+        assertEquals(2, jsonObject.getInt("weight"));
+        JSONArray expectedArray = new JSONArray();
+        expectedArray.put("2");
+        expectedArray.put("3");
+        expectedArray.put("4");
+        expectedArray.put("5");
+        assertEquals(expectedArray.toString(), jsonObject.getJSONArray("choices").toString());
     }
 }

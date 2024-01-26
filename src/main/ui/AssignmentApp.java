@@ -1,23 +1,39 @@
 package ui;
 
 import model.*;
+import persistence.*;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class AssignmentApp {
-    private Student jack;
-    private Student mike;
-    private Student bugatti;
-    private Assignment quiz1;
-    private Teacher james;
-    private Course math;
+    private static final String JSON_TEACHER = "./data/teacher.json";
+    private static final String JSON_STUDENT = "./data/student.json";
     private Person currentUser;
     private List<Person> personList;
+    private List<Student> los;
+    private List<Teacher> lot;
+    private List<Course> loc;
+    private JsonWriter jsonTeacherWriter;
+    private JsonWriter jsonStudentWriter;
+    private JsonReader jsonTeacherReader;
+    private JsonReader jsonStudentReader;
     Scanner input;
 
-    public AssignmentApp() {
+    public AssignmentApp() throws FileNotFoundException {
+        lot = new ArrayList<>();
+        loc = new ArrayList<>();
+        los = new ArrayList<>();
+        personList = new ArrayList<>();
+        jsonTeacherWriter = new JsonWriter(JSON_TEACHER);
+        jsonStudentWriter = new JsonWriter(JSON_STUDENT);
+        jsonStudentReader = new JsonReader(JSON_STUDENT);
+        jsonTeacherReader = new JsonReader(JSON_TEACHER);
+
         runAssignment();
     }
 
@@ -27,6 +43,11 @@ public class AssignmentApp {
         boolean status = false;
         String command = "";
         init();
+        System.out.println("Press k to load state from file, press other keys to continue without loading");
+        command = input.next();
+        if (command.equals("k")) {
+            loadState();
+        }
         status = accountSystem();
         System.out.println("Logged in: " + status + " as " + this.currentUser.getRole());
         while (status) {
@@ -37,6 +58,10 @@ public class AssignmentApp {
                     status = false;
                 } else if (command.equals("o")) {
                     status = accountSystem();
+                } else if (command.equals("j")) {
+                    saveState();
+                } else if (command.equals("k")) {
+                    loadState();
                 } else {
                     processTeacherCommand(command);
                 }
@@ -47,6 +72,10 @@ public class AssignmentApp {
                     status = false;
                 } else if (command.equals("o")) {
                     status = accountSystem();
+                } else if (command.equals("j")) {
+                    saveState();
+                } else if (command.equals("k")) {
+                    loadState();
                 } else {
                     processStudentCommand(command);
                 }
@@ -58,13 +87,18 @@ public class AssignmentApp {
     // Process the command when the current user is a Student
     public void processStudentCommand(String command) {
         if (command.equals("c")) {
-            for (Course c : this.currentUser.getCourse()) {
-                System.out.println(c.getName() + "(id: " + c.getId() + "): " + c.getDescription());
-                System.out.println("Assignments: ");
-                for (Assignment a : c.getAssignment()) {
-                    System.out.println("Id: " + a.getId() + ", name: " + a.getName() + ", type: "
-                            + a.getType() + ", " + a.getWorth() + ", Duration: " + a.getDuration());
+            for (int i : ((Student) this.currentUser).getCourseId()) {
+                for (Course c : loc) {
+                    if (c.getId() == i) {
+                        System.out.println(c.getName() + "(id: " + c.getId() + "): " + c.getDescription());
+                        System.out.println("Assignments: ");
+                        for (Assignment a : c.getAssignment()) {
+                            System.out.println("Id: " + a.getId() + ", name: " + a.getName() + ", type: "
+                                    + a.getType() + ", " + a.getWorth() + ", Duration: " + a.getDuration());
+                        }
+                    }
                 }
+
             }
         } else if (command.equals("a")) {
             processStudentCommandA();
@@ -91,7 +125,7 @@ public class AssignmentApp {
         }
 
         if (currentAssignment != null) {
-            Answers answer = new Answers((Student) this.currentUser, currentAssignment);
+            Answers answer = new Answers(((Student) this.currentUser), currentAssignment);
             for (Question q : currentAssignment.getQuestionList()) {
                 System.out.println(q.getQuest());
                 String an = input.next();
@@ -112,7 +146,7 @@ public class AssignmentApp {
             String name = input.next();
             System.out.println("Enter course description: ");
             String description = input.next();
-            this.currentUser.addCourse(new Course(name, description));
+            ((Teacher) this.currentUser).addCourse(new Course(name, description));
         } else if (command.equals("f")) {
             processTeacherCommandF();
         } else if (command.equals("r")) {
@@ -128,7 +162,7 @@ public class AssignmentApp {
 
     // Process "v" command for teacher
     public void processTeacherCommandV() {
-        for (Course c : this.currentUser.getCourse()) {
+        for (Course c : ((Teacher) this.currentUser).getCourse()) {
             System.out.println(c.getName() + "(id: " + c.getId() + "): " + c.getDescription() + ", Students: ");
             for (Student s : c.getStudent()) {
                 System.out.println(s.getName() + " (id: " + s.getId() + ")");
@@ -138,7 +172,7 @@ public class AssignmentApp {
 
     // Process "g" command for teacher
     public void processTeacherCommandG() {
-        for (Course c : this.currentUser.getCourse()) {
+        for (Course c : ((Teacher) this.currentUser).getCourse()) {
             System.out.println(c.getName() + "(id: " + c.getId() + "): " + c.getDescription());
             System.out.println("STUDENT GRADE:");
             for (Student s : c.getStudent()) {
@@ -163,7 +197,7 @@ public class AssignmentApp {
         int worth = Integer.valueOf(input.next());
         System.out.println("Course id to add to: ");
         String id = input.next();
-        for (Course c : this.currentUser.getCourse()) {
+        for (Course c : ((Teacher) this.currentUser).getCourse()) {
             if (id.equals(String.valueOf(c.getId()))) {
                 currentCourse = c;
                 Assignment veryNew = new Assignment(name, type, duration, deadline, worth);
@@ -184,7 +218,7 @@ public class AssignmentApp {
         Assignment currentAssignment = null;
 
         // Search the assignment with the given id in student's assignment list
-        for (Course c : this.currentUser.getCourse()) {
+        for (Course c : ((Teacher) this.currentUser).getCourse()) {
             for (Assignment a : c.getAssignment()) {
                 if (assignmentId.equals(String.valueOf(a.getId()))) {
                     currentAssignment = a;
@@ -206,7 +240,7 @@ public class AssignmentApp {
         System.out.println("Enter course id: ");
         int courseId = Integer.valueOf(input.next());
         for (Person s : personList) {
-            for (Course c : this.currentUser.getCourse()) {
+            for (Course c : ((Teacher) this.currentUser).getCourse()) {
                 if (s.getRole().equals("student") && s.getId() == studentId && c.getId() == courseId) {
                     c.addStudent((Student) s);
                 }
@@ -216,7 +250,7 @@ public class AssignmentApp {
 
     // Process "s" command for teacher
     public void processTeacherCommandS() {
-        for (Course c : this.currentUser.getCourse()) {
+        for (Course c : ((Teacher) this.currentUser).getCourse()) {
             System.out.println(c.getName() + "(id: " + c.getId() + "): " + c.getDescription());
             System.out.println("Assignments: ");
             for (Assignment a : c.getAssignment()) {
@@ -227,34 +261,7 @@ public class AssignmentApp {
     }
 
     // Initialize Students, Teacher, 1 Assignment, 1 Course, a person list and input scanner
-    @SuppressWarnings("methodlength")
     public void init() {
-        jack = new Student("Jack", "jackDo", "123456");
-        mike = new Student("Mike", "mikeDo", "123456");
-        bugatti = new Student("Bugatti", "bugattiDo", "123456");
-        james = new Teacher("James", "jamesDo", "123456");
-
-        quiz1 = new Assignment("Quiz1", "Quiz", 5, 1600, 100);
-        Question q1 = new LongAnswer("What color's your Bugatti?", "Bronze", 5);
-        Question q2 = new LongAnswer("How fast if your Bugatti?", "300", 10);
-        quiz1.addQuestion(q1);
-        quiz1.addQuestion(q2);
-
-        personList = new ArrayList<>();
-        math = new Course("MATH 200", "Analytic geometry in 2 and 3 dimensions, ");
-        math.addAssignment(quiz1);
-
-        math.addStudent(jack);
-        math.addStudent(mike);
-        math.addStudent(bugatti);
-
-        james.addCourse(math);
-
-        personList.add(jack);
-        personList.add(mike);
-        personList.add(james);
-        personList.add(bugatti);
-
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -289,9 +296,13 @@ public class AssignmentApp {
         String role = input.next();
 
         if (role.equals("1")) {
-            this.currentUser = new Student(name, userName, password);
+            Student s = new Student(name, userName, password);
+            this.los.add(s);
+            this.currentUser = s;
         } else if (role.equals("2")) {
-            this.currentUser = new Teacher(name, userName, password);;
+            Teacher t = new Teacher(name, userName, password);
+            this.lot.add(t);
+            this.currentUser = t;
         }
         personList.add(this.currentUser);
     }
@@ -310,6 +321,55 @@ public class AssignmentApp {
         }
     }
 
+    // EFFECTS: save the current state to file
+    private void saveState() {
+        try {
+            jsonTeacherWriter.open();
+            jsonStudentWriter.open();
+            jsonTeacherWriter.writeTeacher(lot);
+            jsonStudentWriter.writeStudent(los);
+            jsonTeacherWriter.close();
+            jsonStudentWriter.close();
+
+            System.out.println("Saved to " + JSON_STUDENT + ", and " + JSON_TEACHER);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STUDENT + ", and " + JSON_TEACHER);
+        }
+    }
+
+    // EFFECTS: load the students and teachers from file
+    private void loadState() {
+        try {
+            List<Teacher> teachers = jsonTeacherReader.readTeacher();
+            List<Student> students = jsonStudentReader.readStudent();
+            lot = teachers;
+            los = students;
+            loadPersonList();
+            System.out.println("Loaded from " + JSON_STUDENT + ", and " + JSON_TEACHER);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STUDENT + ", and " + JSON_TEACHER);
+        }
+    }
+
+    // EFFECTS: add teachers and students to person list
+    private void loadPersonList() {
+        for (Teacher t : lot) {
+            for (Course c : t.getCourse()) {
+                if (!loc.contains(c)) {
+                    loc.add(c);
+                }
+            }
+            if (!personList.contains(t)) {
+                personList.add(t);
+            }
+        }
+        for (Student s : los) {
+            if (!personList.contains(s)) {
+                personList.add(s);
+            }
+        }
+    }
+
     // Command menu for Teacher
     private void displayMenuTeacher() {
         System.out.println("\nSelect from:");
@@ -320,6 +380,8 @@ public class AssignmentApp {
         System.out.println("\ts -> view Assignment List and Course List");
         System.out.println("\tv -> view student list");
         System.out.println("\tg -> view list of student overall grade");
+        System.out.println("\tj -> save the current state to file");
+        System.out.println("\tk -> load the state from file");
         System.out.println("\to -> log out");
         System.out.println("\tq -> quit");
     }
@@ -330,6 +392,8 @@ public class AssignmentApp {
         System.out.println("\ta -> choose an assignment to work on");
         System.out.println("\tc -> view Course List and Assignments in each Course");
         System.out.println("\tv -> view overall grade");
+        System.out.println("\tj -> save the current state to file");
+        System.out.println("\tk -> load the state from file");
         System.out.println("\to -> log out");
         System.out.println("\tq -> quit");
     }

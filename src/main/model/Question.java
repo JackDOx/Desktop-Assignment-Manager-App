@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Question Interface. Question can be mulitple choice or Long answer
 public interface Question {
 
@@ -16,4 +18,6 @@ public interface Question {
     public int getWeight();
 
     public void setWeight(int weight);
+
+    public JSONObject toJson();
 }

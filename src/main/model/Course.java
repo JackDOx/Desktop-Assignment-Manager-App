@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 // A Course class that has a unique ID. Course has a list of Student that are enrolled in the Course, and a list of
 // Assignment that require Students to work on them
@@ -22,15 +24,60 @@ public class Course {
         this.loa = new ArrayList<>();
     }
 
+    // EFFECTS: construct a Course with a given id
+    public Course(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.los = new ArrayList<>();
+        this.loa = new ArrayList<>();
+    }
+
+
+    // EFFECTS: return the Json file of Course
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("name", this.name);
+        json.put("description", this.description);
+        json.put("students", studentToJsonArray());
+        json.put("assignments", assignmentToJsonArray());
+        return json;
+    }
+
+    // EFFECTS: return the json file of list of student's ids
+    public JSONArray studentToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (Student a : this.los) {
+            result.put(a.toJson());
+        }
+        return result;
+    }
+
+    // EFFECTS: return the json file of list of assignment
+    public JSONArray assignmentToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (Assignment a : this.loa) {
+            result.put(a.toJson());
+        }
+        return result;
+    }
+
+
+
     // MODIFIES: this
     // EFFECTS: add s to list of Student, and add all the assignments in the Course to s' list of Assignment
     public void addStudent(Student s) {
         if (!this.los.contains(s)) {
             this.los.add(s);
-            s.addCourse(this);
+            s.addCourseId(this.id);
             for (Assignment a : loa) {
                 s.addAssignment(a);
             }
+
+            Event event = new Event("Student " + s.getName() + "(id: " + s.getId() + ") added to Course "
+                    + this.name);
+            EventLog.getInstance().logEvent(event);
         }
     }
 
@@ -39,9 +86,14 @@ public class Course {
     public void removeStudent(Student s) {
         if (this.los.contains(s)) {
             this.los.remove(s);
+            s.removeCourseId(this.id);
             for (Assignment a : loa) {
                 s.removeAssignment(a);
             }
+
+            Event event = new Event("Student " + s.getName() + "(id: " + s.getId() + ") removed from Course "
+                    + this.name);
+            EventLog.getInstance().logEvent(event);
         }
     }
 
@@ -52,6 +104,9 @@ public class Course {
         for (Student s : this.los) {
             s.addAssignment(as);
         }
+
+        Event event = new Event("Assignment " + as.getName() + " added to Course");
+        EventLog.getInstance().logEvent(event);
     }
 
     // MODIFIES: this
@@ -62,6 +117,9 @@ public class Course {
             for (Student s : this.los) {
                 s.removeAssignment(as);
             }
+
+            Event event = new Event("Assignment " + as.getName() + " removed from Course");
+            EventLog.getInstance().logEvent(event);
         }
     }
 
@@ -82,7 +140,11 @@ public class Course {
     }
 
     public void setName(String name) {
+        String oldName = this.name;
         this.name = name;
+
+        Event event = new Event("Course " + oldName + "'s name changed to " + this.name);
+        EventLog.getInstance().logEvent(event);
     }
 
     public String getDescription() {
@@ -91,5 +153,8 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+
+        Event event = new Event("Course " + this.name + "'s description changed to " + description);
+        EventLog.getInstance().logEvent(event);
     }
 }

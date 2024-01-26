@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,13 +11,29 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CourseTest {
+    private Course course;
+    private Course course2;
+    private Student student1;
+    private Student student2;
+    private Assignment assignment1;
+    private Assignment assignment2;
 
+    @BeforeEach
+    void runBefore() {
+        course = new Course("Math", "Advanced Mathematics Course");
+        student1 = new Student("John", "johnDoe", "123456");
+        student2 = new Student("Jane", "janeDoe", "234567");
+        assignment1 = new Assignment("Assignment 1", "Homework", 60, 7, 100);
+        assignment2 = new Assignment("Assignment 2", "Quiz", 30, 5, 50);
+    }
     @Test
     void testCourse() {
-        Course course = new Course("Mathematics", "Advanced Mathematics Course");
-        assertEquals("Mathematics", course.getName());
+        assertEquals("Math", course.getName());
         assertEquals("Advanced Mathematics Course", course.getDescription());
         assertEquals(1002, course.getId());
+        course2 = new Course(1005, "Phys", "Electric Physic");
+        assertEquals(1005, course2.getId());
+        assertEquals("Phys", course2.getName());
 
         course.setName("Physics");
         course.setDescription("Basic Physics Course");
@@ -23,11 +42,6 @@ public class CourseTest {
 
         List<Student> los = new ArrayList<>();
         List<Assignment> loa = new ArrayList<>();
-
-        Student student1 = new Student("John", "johnDoe", "123456");
-        Student student2 = new Student("Jane", "janeDoe", "234567");
-        Assignment assignment1 = new Assignment("Assignment 1", "Homework", 60, 7, 100);
-        Assignment assignment2 = new Assignment("Assignment 2", "Quiz", 30, 5, 50);
 
         course.addStudent(student1);
         course.addStudent(student1);
@@ -61,5 +75,41 @@ public class CourseTest {
 
         course.removeStudent(student1);
         assertEquals(0, student1.getAssignment().size());
+    }
+
+    @Test
+    void testToJson() {
+        JSONObject jsonObject = course.toJson();
+        assertEquals("Math", jsonObject.getString("name"));
+        assertEquals("Advanced Mathematics Course", jsonObject.getString("description"));
+        assertEquals(1003, jsonObject.getInt("id"));
+        assertEquals(0, jsonObject.getJSONArray("students").length());
+        assertEquals(0, jsonObject.getJSONArray("assignments").length());
+    }
+
+    @Test
+    void testStudentToJsonArray() {
+        course.addStudent(student1);
+        JSONArray jsonArray = course.studentToJsonArray();
+        assertEquals(1, jsonArray.length());
+        assertEquals(student1.getName(), jsonArray.getJSONObject(0).getString("name"));
+
+        course.addStudent(student2);
+        jsonArray = course.studentToJsonArray();
+        assertEquals(2, jsonArray.length());
+        assertEquals(student2.getName(), jsonArray.getJSONObject(1).getString("name"));
+    }
+
+    @Test
+    void testAssignmentToJsonArray() {
+        course.addAssignment(assignment1);
+        JSONArray jsonArray = course.assignmentToJsonArray();
+        assertEquals(1, jsonArray.length());
+        assertEquals(assignment1.getName(), jsonArray.getJSONObject(0).getString("name"));
+
+        course.addAssignment(assignment2);
+        jsonArray = course.assignmentToJsonArray();
+        assertEquals(2, jsonArray.length());
+        assertEquals(assignment2.getName(), jsonArray.getJSONObject(1).getString("name"));
     }
 }

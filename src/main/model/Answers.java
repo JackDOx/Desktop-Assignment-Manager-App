@@ -34,7 +34,12 @@ public class Answers {
 
         result = (result / total) * 100; //* this.assignment.getWorth();
 
-        this.student.addGrade(new Grade(result, this.assignment, this.student));
+        this.student.addGrade(new Grade(result, this.assignment));
+
+        Event event = new Event("Student " + this.student.getName() + " (id: " + this.student.getId()
+                + ") submitted answers for assignment " + this.assignment.getName() + " (id: "
+                + this.assignment.getId() + ")");
+        EventLog.getInstance().logEvent(event);
 
         return result;
     }

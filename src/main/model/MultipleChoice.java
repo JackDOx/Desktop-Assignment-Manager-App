@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,6 +21,22 @@ public class MultipleChoice implements Question {
         choices = new ArrayList<>();
         this.key = key;
         this.weight = weight;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("quest", this.quest);
+        json.put("key", this.key);
+        json.put("weight", this.weight);
+
+        JSONArray res = new JSONArray();
+        for (String s : this.choices) {
+            res.put(s);
+        }
+        json.put("choices", res);
+
+        return json;
     }
 
     // EFFECTS: return true if provided answer is equals to this.key

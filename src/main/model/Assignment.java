@@ -1,6 +1,8 @@
 package model;
 
 import java.util.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 // Assignment class that contains a list of Question, duration, deadline and its weight out of the course
 // that a student can work on. An assignment is unique with a unique ID and can be worked on by students.
@@ -24,6 +26,40 @@ public class Assignment {
         this.duration = duration;
         this.worth = worth;
         this.loq = new ArrayList<>();
+    }
+
+    // REQUIRES: duration > 0 , deadline > 0
+    // EFFECTS: constructs an Assignment with the given id
+    public Assignment(int id, String name, String type, int duration, int deadline, int worth) {
+        this.name = name;
+        this.type = type;
+        this.deadline = deadline;
+        this.id = id;
+        this.nextAssignmentId = id;
+        this.duration = duration;
+        this.worth = worth;
+        this.loq = new ArrayList<>();
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("name", this.name);
+        json.put("type", this.type);
+        json.put("duration", this.duration);
+        json.put("deadline", this.deadline);
+        json.put("worth", this.worth);
+        json.put("questions", questionToJsonArray());
+
+        return json;
+    }
+
+    public JSONArray questionToJsonArray() {
+        JSONArray result = new JSONArray();
+        for (Question q : this.loq) {
+            result.put(q.toJson());
+        }
+        return result;
     }
 
     public List<Question> getQuestionList() {
