@@ -1,0 +1,34 @@
+{
+  "students": [
+    {
+      "name": "Alice",
+      "userName": "alice123",
+      "password": "password123",
+      "role": "student",
+      "id": 1,
+      "grades": [],
+      "courses": [],
+      "assignments": []
+    },
+    {
+      "name": "Bob",
+      "userName": "bob456",
+      "password": "password456",
+      "role": "student",
+      "id": 2,
+      "grades": [],
+      "courses": [],
+      "assignments": [
+        {
+          "name": "Math Assignment",
+          "type": "Math",
+          "id": 101,
+          "duration": 60,
+          "deadline": 7,
+          "worth": 100,
+          "questions": []
+        }
+      ]
+    }
+  ]
+}

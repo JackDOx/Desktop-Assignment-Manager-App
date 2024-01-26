@@ -1,0 +1,38 @@
+{
+  "students": [
+    {
+      "name": "John Doe",
+      "userName": "johndoe",
+      "password": "1234",
+      "role": "student",
+      "id": 1001,
+      "grades": [
+        {
+          "grade": 95.0,
+          "assignment": { "name": "Math Assignment", "type": "Math", "id": 101, "duration": 60, "deadline": 7, "worth": 100, "questions": [] }
+        },
+        {
+          "grade": 90.0,
+          "assignment": { "name": "Physics Assignment", "type": "Physics", "id": 102, "duration": 90, "deadline": 10, "worth": 150, "questions": [] }
+        }
+      ],
+      "courses": [100, 101],
+      "assignments": []
+    },
+    {
+      "name": "Jane Smith",
+      "userName": "janesmith",
+      "password": "5678",
+      "role": "student",
+      "id": 1002,
+      "grades": [
+        {
+          "grade": 85.0,
+          "assignment": { "name": "Chemistry Assignment", "type": "Chemistry", "id": 103, "duration": 45, "deadline": 5, "worth": 120, "questions": [] }
+        }
+      ],
+      "courses": [102],
+      "assignments": []
+    }
+  ]
+}

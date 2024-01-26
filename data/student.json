@@ -1,0 +1,270 @@
+{"students": [
+    {
+        "courses": [
+            1000,
+            1000,
+            1000,
+            1000
+        ],
+        "password": "123",
+        "role": "student",
+        "assignments": [
+            {
+                "duration": 15,
+                "name": "quiz1",
+                "questions": [
+                    {
+                        "weight": 35,
+                        "quest": "Calculate 19*2 + (8 - 2)* 3",
+                        "key": "56"
+                    },
+                    {
+                        "weight": 15,
+                        "quest": "Can a number divides by 0?",
+                        "key": "No"
+                    },
+                    {
+                        "weight": 50,
+                        "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                        "key": "40"
+                    }
+                ],
+                "id": 1000,
+                "type": "quiz",
+                "deadline": 2010,
+                "worth": 5
+            },
+            {
+                "duration": 90,
+                "name": "Midterm 1",
+                "questions": [
+                    {
+                        "weight": 30,
+                        "quest": "Can a number divides by 0?",
+                        "key": "No"
+                    },
+                    {
+                        "weight": 80,
+                        "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                        "key": "40"
+                    }
+                ],
+                "id": 1000,
+                "type": "Exam",
+                "deadline": 20122023,
+                "worth": 20
+            }
+        ],
+        "name": "Mai",
+        "grades": [
+            {
+                "assignment": {
+                    "duration": 90,
+                    "name": "Midterm 1",
+                    "questions": [
+                        {
+                            "weight": 15,
+                            "quest": "Can a number divides by 0?",
+                            "key": "No"
+                        },
+                        {
+                            "weight": 50,
+                            "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                            "key": "40"
+                        }
+                    ],
+                    "id": 1000,
+                    "type": "Exam",
+                    "deadline": 20122023,
+                    "worth": 20
+                },
+                "grade": 23.076923076923077
+            },
+            {
+                "assignment": {
+                    "duration": 15,
+                    "name": "quiz1",
+                    "questions": [
+                        {
+                            "weight": 35,
+                            "quest": "Calculate 19*2 + (8 - 2)* 3",
+                            "key": "56"
+                        },
+                        {
+                            "weight": 15,
+                            "quest": "Can a number divides by 0?",
+                            "key": "No"
+                        },
+                        {
+                            "weight": 50,
+                            "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                            "key": "40"
+                        }
+                    ],
+                    "id": 1000,
+                    "type": "quiz",
+                    "deadline": 2010,
+                    "worth": 5
+                },
+                "grade": 50
+            },
+            {
+                "assignment": {
+                    "duration": 15,
+                    "name": "quiz1",
+                    "questions": [
+                        {
+                            "weight": 35,
+                            "quest": "Calculate 19*2 + (8 - 2)* 3",
+                            "key": "56"
+                        },
+                        {
+                            "weight": 15,
+                            "quest": "Can a number divides by 0?",
+                            "key": "No"
+                        },
+                        {
+                            "weight": 50,
+                            "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                            "key": "40"
+                        }
+                    ],
+                    "id": 1000,
+                    "type": "quiz",
+                    "deadline": 2010,
+                    "worth": 5
+                },
+                "grade": 50
+            }
+        ],
+        "id": 1000,
+        "userName": "mai"
+    },
+    {
+        "courses": [
+            1000,
+            1000,
+            1000,
+            1000
+        ],
+        "password": "123",
+        "role": "student",
+        "assignments": [
+            {
+                "duration": 15,
+                "name": "quiz1",
+                "questions": [
+                    {
+                        "weight": 35,
+                        "quest": "Calculate 19*2 + (8 - 2)* 3",
+                        "key": "56"
+                    },
+                    {
+                        "weight": 15,
+                        "quest": "Can a number divides by 0?",
+                        "key": "No"
+                    },
+                    {
+                        "weight": 50,
+                        "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                        "key": "40"
+                    }
+                ],
+                "id": 1000,
+                "type": "quiz",
+                "deadline": 2010,
+                "worth": 5
+            },
+            {
+                "duration": 90,
+                "name": "Midterm 1",
+                "questions": [
+                    {
+                        "weight": 15,
+                        "quest": "Can a number divides by 0?",
+                        "key": "No"
+                    },
+                    {
+                        "weight": 50,
+                        "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                        "key": "40"
+                    }
+                ],
+                "id": 1000,
+                "type": "Exam",
+                "deadline": 20122023,
+                "worth": 20
+            }
+        ],
+        "name": "Trung Nguyen",
+        "grades": [
+            {
+                "assignment": {
+                    "duration": 15,
+                    "name": "quiz1",
+                    "questions": [
+                        {
+                            "weight": 35,
+                            "quest": "Calculate 19*2 + (8 - 2)* 3",
+                            "key": "56"
+                        },
+                        {
+                            "weight": 15,
+                            "quest": "Can a number divides by 0?",
+                            "key": "No"
+                        },
+                        {
+                            "weight": 50,
+                            "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                            "key": "40"
+                        }
+                    ],
+                    "id": 1000,
+                    "type": "quiz",
+                    "deadline": 2010,
+                    "worth": 5
+                },
+                "grade": 85
+            },
+            {
+                "assignment": {
+                    "duration": 90,
+                    "name": "Midterm 1",
+                    "questions": [
+                        {
+                            "weight": 15,
+                            "quest": "Can a number divides by 0?",
+                            "key": "No"
+                        },
+                        {
+                            "weight": 50,
+                            "quest": "There are 2 packs of pencils with total 120 pencils, pack 2 contains 40 more pencils than pack 1. How many pencils does pack 1 has?",
+                            "key": "40"
+                        }
+                    ],
+                    "id": 1000,
+                    "type": "Exam",
+                    "deadline": 20122023,
+                    "worth": 20
+                },
+                "grade": 0
+            }
+        ],
+        "id": 1001,
+        "userName": "trungt1"
+    },
+    {
+        "courses": [
+            1000,
+            1000,
+            1000
+        ],
+        "password": "123",
+        "role": "student",
+        "assignments": [],
+        "name": "Mike Tyson",
+        "grades": [],
+        "id": 1002,
+        "userName": "ironmike"
+    }
+]}

@@ -1,0 +1,28 @@
+{
+  "teachers": [
+    {
+      "name": "Teacher1",
+      "userName": "teacher1",
+      "password": "password1",
+      "role": "teacher",
+      "id": 1,
+      "courses": [
+        {
+        "id": 101,
+        "name": "Math",
+        "description": "Introduction to Mathematics",
+        "students": [],
+        "assignments": []
+      }
+      ]
+    },
+    {
+      "name": "Teacher2",
+      "userName": "teacher2",
+      "password": "password2",
+      "role": "teacher",
+      "id": 2,
+      "courses": []
+    }
+  ]
+}

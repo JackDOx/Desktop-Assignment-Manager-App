@@ -1,0 +1,9 @@
+{
+  "name": "Math Assignment",
+  "type": "Math",
+  "id": 101,
+  "duration": 60,
+  "deadline": 7,
+  "worth": 100,
+  "questions": []
+}

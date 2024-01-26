@@ -1,0 +1,18 @@
+{"teachers": [
+  {
+    "courses": [],
+    "password": "password",
+    "role": "teacher",
+    "name": "James",
+    "id": 1000,
+    "userName": "james123"
+  },
+  {
+    "courses": [],
+    "password": "password",
+    "role": "teacher",
+    "name": "JinDong",
+    "id": 1001,
+    "userName": "jindong123"
+  }
+]}

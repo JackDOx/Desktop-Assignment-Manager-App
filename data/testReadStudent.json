@@ -1,0 +1,22 @@
+{"students": [
+  {
+    "courses": [],
+    "password": "password",
+    "role": "student",
+    "assignments": [],
+    "name": "John Doe",
+    "grades": [],
+    "id": 1000,
+    "userName": "johndoe"
+  },
+  {
+    "courses": [],
+    "password": "password",
+    "role": "student",
+    "assignments": [],
+    "name": "Jane Doe",
+    "grades": [],
+    "id": 1001,
+    "userName": "janedoe"
+  }
+]}

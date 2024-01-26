@@ -1,0 +1,64 @@
+{
+  "teachers": [
+    {
+      "name": "John Doe",
+      "userName": "johndoe",
+      "password": "1234",
+      "role": "teacher",
+      "id": 1001,
+      "courses": [
+        {
+          "id": 101,
+          "name": "Math",
+          "description": "Introduction to Mathematics",
+          "students": [],
+          "assignments": []
+        },
+        {
+          "id": 102,
+          "name": "Physics",
+          "description": "Introduction to Physics",
+          "students": [],
+          "assignments": []
+        }
+      ]
+    },
+    {
+      "name": "Jane Smith",
+      "userName": "janesmith",
+      "password": "5678",
+      "role": "teacher",
+      "id": 1002,
+      "courses": [
+        {
+          "id": 201,
+          "name": "Science",
+          "description": "Introduction to Science",
+          "students": [
+            {
+              "name": "Alice",
+              "userName": "alice123",
+              "password": "password123",
+              "role": "student",
+              "id": 1,
+              "grades": [],
+              "courses": [],
+              "assignments": []
+            }
+          ],
+          "assignments": [
+            {
+              "name": "Math Assignment",
+              "type": "Math",
+              "id": 101,
+              "duration": 60,
+              "deadline": 7,
+              "worth": 100,
+              "questions": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
